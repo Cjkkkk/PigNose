@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+video {
+    position: absolute;
+    z-index: -1;
+}
+canvas {
+    position: absolute;
+}
+#bottom-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 15vh;
+    /*background: #1890ff;*/
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+#top-bar{
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 10vh;
+    /*background: #1890ff;*/
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+img {
+    width: 10vw;
+}
