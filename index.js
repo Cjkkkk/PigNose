@@ -99,3 +99,19 @@ animate();
 //     });
 //
 // });
+
+var left_head = document.querySelector("#left-head");
+var left_ear = document.querySelector("#left-ear");
+var right_head = document.querySelector("#right-head");
+var right_ear = document.querySelector("#right-ear");
+left_head.addEventListener("click", function (e) {
+    if(left_ear.style.height === '15vh')
+        left_ear.style.height = '5vh';
+    else left_ear.style.height = '15vh';
+});
+
+right_head.addEventListener("click", function (e) {
+    if(right_ear.style.height === '15vh')
+        right_ear.style.height = '5vh';
+    else right_ear.style.height = '15vh';
+});
