@@ -100,16 +100,6 @@ animate();
 //     });
 //
 // });
-
-// 监听事件
-let left_head = document.querySelector("#left-head");
-let left_ear = document.querySelector("#left-ear");
-let right_head = document.querySelector("#right-head");
-let right_ear = document.querySelector("#right-ear");
-let snap_shot = document.querySelector("#snapshot");
-let video=document.getElementById("video");
-//下面的代码是保存canvas标签里的图片并且将其按一定的规则重命名
-
 let _fixType = function(type) {
     type = type.toLowerCase().replace(/jpg/i, 'jpeg');
     let r = type.match(/png|jpeg|bmp|gif/)[0];
@@ -135,16 +125,27 @@ let saveFile = function(filename){
     save_link.click();
 };
 
-left_head.addEventListener("click", function (e) {
-    if(left_ear.style.height === '15vh')
-        left_ear.style.height = '5vh';
-    else left_ear.style.height = '15vh';
-});
+// 监听事件
+let left_head = document.querySelector("#left-head");
+let left_ear = document.querySelector("#left-ear");
+let right_head = document.querySelector("#right-head");
+let right_ear = document.querySelector("#right-ear");
+let snap_shot = document.querySelector("#snapshot");
+let video=document.getElementById("video");
+//下面的代码是保存canvas标签里的图片并且将其按一定的规则重命名
 
+left_head.addEventListener("click", function (e) {
+    if(left_ear.style.top === '0vh')
+       left_ear.style.top = '10vh';
+    else left_ear.style.top = '0vh';
+});
 right_head.addEventListener("click", function (e) {
-    if(right_ear.style.height === '15vh')
-        right_ear.style.height = '5vh';
-    else right_ear.style.height = '15vh';
+    // if(right_ear.style.height === '15vh')
+    //     right_ear.style.height = '5vh';
+    // else right_ear.style.height = '15vh';
+    if(right_ear.style.top === '0vh')
+        right_ear.style.top = '10vh';
+    else right_ear.style.top = '0vh';
 });
 
 snap_shot.addEventListener("click", function (e) {
@@ -154,18 +155,27 @@ snap_shot.addEventListener("click", function (e) {
 });
 
 let color_ear = left_ear.getElementsByTagName("img");
-//let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
-color_ear[0].addEventListener("click",function (e) {
-    fillLight.color.setHSL(281/360, 0.8, 0.58);
-    console.log(1);
+let nose_model = right_ear.getElementsByTagName("img");
+hsl_array = [
+    [187/360, 0.8, 0.58],
+    [281/360, 0.8, 0.58],
+    [93/360, 0.8, 0.58]
+];
+Array.prototype.forEach.call(color_ear, (elem, index, array)=>{
+    elem.addEventListener("click",function (e) {
+        fillLight.color.setHSL(...hsl_array[index]);
+        Array.prototype.forEach.call(array, (elem_, index_ )=>{
+            if(index_ === index) elem_.setAttribute('class', 'choose');
+            else elem_.setAttribute('class', 'no_choose')
+        });
+    });
 });
 
-color_ear[1].addEventListener("click",function (e) {
-    fillLight.color.setHSL(187/360, 0.8, 0.58);
-    console.log(1);
-});
-
-color_ear[2].addEventListener("click",function (e) {
-    fillLight.color.setHSL(93/360, 0.8, 0.58);
-    console.log(1);
+Array.prototype.forEach.call(nose_model, (elem, index, array)=>{
+    elem.addEventListener("click",function (e) {
+        Array.prototype.forEach.call(array, (elem_, index_ )=>{
+            if(index_ === index) elem_.setAttribute('class', 'choose');
+            else elem_.setAttribute('class', 'no_choose')
+        });
+    });
 });
