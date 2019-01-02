@@ -19,6 +19,7 @@ canvas {
     z-index: -1;
     /*height: 100vh;*/
 }
+
 #top-bar{
     display: flex;
     position: fixed;

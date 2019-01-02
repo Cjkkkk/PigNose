@@ -26,12 +26,12 @@ navigator.mediaDevices.getUserMedia(constraints)
     });
 
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-var renderer = new THREE.WebGLRenderer({ alpha: true });
-var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
-var fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
-var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+let renderer = new THREE.WebGLRenderer({ alpha: true });
+let keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
+let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+let backLight = new THREE.DirectionalLight(0xffffff, 1.0);
 camera.position.z = 5;
 keyLight.position.set(-100, 0, 100);
 fillLight.position.set(100, 0, 100);
@@ -42,18 +42,18 @@ scene.add(backLight);
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
 
-var controls = new THREE.OrbitControls(camera, renderer.domElement);
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.25;
 controls.enableZoom = true;
 
-var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var cube = new THREE.Mesh( geometry, material );
+let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+let material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+let cube = new THREE.Mesh( geometry, material );
 // scene.add( cube );
 
-var loader = new THREE.OBJLoader();
-var PigNose;
+let loader = new THREE.OBJLoader();
+let PigNose;
 // load a resource
 loader.load(
     // resource URL
@@ -77,7 +77,7 @@ loader.load(
         console.log( 'An error happened' );
     }
 );
-var animate = function () {
+let animate = function () {
     requestAnimationFrame( animate );
     renderer.render(scene, camera);
     controls.update();
@@ -85,12 +85,12 @@ var animate = function () {
 
 animate();
 
-// var mtlLoader = new THREE.MTLLoader();
+// let mtlLoader = new THREE.MTLLoader();
 // mtlLoader.setTexturePath('/examples/3d-obj-loader/assets/');
 // mtlLoader.setPath('/examples/3d-obj-loader/assets/');
 // mtlLoader.load('r2-d2.mtl', function (materials) {
 //     materials.preload();
-//     var objLoader = new THREE.OBJLoader();
+//     let objLoader = new THREE.OBJLoader();
 //     objLoader.setMaterials(materials);
 //     objLoader.setPath('/examples/3d-obj-loader/assets/');
 //     objLoader.load('r2-d2.obj', function (object) {
@@ -100,10 +100,36 @@ animate();
 //
 // });
 
-var left_head = document.querySelector("#left-head");
-var left_ear = document.querySelector("#left-ear");
-var right_head = document.querySelector("#right-head");
-var right_ear = document.querySelector("#right-ear");
+let left_head = document.querySelector("#left-head");
+let left_ear = document.querySelector("#left-ear");
+let right_head = document.querySelector("#right-head");
+let right_ear = document.querySelector("#right-ear");
+let snap_shot = document.querySelector("#snapshot");
+let video=document.getElementById("video");
+//下面的代码是保存canvas标签里的图片并且将其按一定的规则重命名
+let type = 'png';
+
+let _fixType = function(type) {
+    type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+    let r = type.match(/png|jpeg|bmp|gif/)[0];
+    return 'image/' + r;
+};
+
+let saveFile = function(filename){
+    //获取canvas标签里的图片内容
+    let imgData = document.querySelector('#image_container').toDataURL(type);
+    imgData = imgData.replace(_fixType(type),'image/octet-stream');
+
+    let save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+    save_link.href = imgData;
+    save_link.download = filename;
+
+    let event = document.createEvent('MouseEvents');
+    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    save_link.dispatchEvent(event);
+};
+
+
 left_head.addEventListener("click", function (e) {
     if(left_ear.style.height === '15vh')
         left_ear.style.height = '5vh';
@@ -114,4 +140,14 @@ right_head.addEventListener("click", function (e) {
     if(right_ear.style.height === '15vh')
         right_ear.style.height = '5vh';
     else right_ear.style.height = '15vh';
+});
+
+snap_shot.addEventListener("click", function (e) {
+    let canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    let context = canvas.getContext("2d");
+    context.drawImage(video,0,0,640,480);
+    let filename = (new Date()).getTime() + '.' + type;
+    saveFile(filename);
 });
