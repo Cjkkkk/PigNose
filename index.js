@@ -117,18 +117,21 @@ let _fixType = function(type) {
 
 let saveFile = function(filename){
     //获取canvas标签里的图片内容
-    let imgData = document.querySelector('#image_container').toDataURL(type);
+    let canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    let context = canvas.getContext("2d");
+    context.drawImage(video,0,0,640,480);
+    let imgData = canvas.toDataURL(type);
     imgData = imgData.replace(_fixType(type),'image/octet-stream');
-
     let save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
     save_link.href = imgData;
     save_link.download = filename;
-
-    let event = document.createEvent('MouseEvents');
-    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    save_link.dispatchEvent(event);
+    // let event = document.createEvent('click');
+    // event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    // save_link.dispatchEvent(event); // 强行触发事件
+    save_link.click();
 };
-
 
 left_head.addEventListener("click", function (e) {
     if(left_ear.style.height === '15vh')
@@ -143,11 +146,6 @@ right_head.addEventListener("click", function (e) {
 });
 
 snap_shot.addEventListener("click", function (e) {
-    let canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    let context = canvas.getContext("2d");
-    context.drawImage(video,0,0,640,480);
     let filename = (new Date()).getTime() + '.' + type;
     saveFile(filename);
 });
