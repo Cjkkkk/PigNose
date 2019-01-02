@@ -1,3 +1,4 @@
+// video 初始化
 const width = window.innerWidth;
 const height = window.innerHeight;
 console.log(width, height);
@@ -25,20 +26,20 @@ navigator.mediaDevices.getUserMedia(constraints)
         console.log(err.name + ": " + err.message);
     });
 
-
+// webgl初始化
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 let renderer = new THREE.WebGLRenderer({ alpha: true });
 let keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
-let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(308, 100%, 75%)'), 0.75);
 let backLight = new THREE.DirectionalLight(0xffffff, 1.0);
 camera.position.z = 5;
 keyLight.position.set(-100, 0, 100);
 fillLight.position.set(100, 0, 100);
 backLight.position.set(100, 0, -100).normalize();
-scene.add(keyLight);
+// scene.add(keyLight);
 scene.add(fillLight);
-scene.add(backLight);
+// scene.add(backLight);
 renderer.setSize( width, height );
 document.body.appendChild( renderer.domElement );
 
@@ -100,6 +101,7 @@ animate();
 //
 // });
 
+// 监听事件
 let left_head = document.querySelector("#left-head");
 let left_ear = document.querySelector("#left-ear");
 let right_head = document.querySelector("#right-head");
@@ -107,7 +109,6 @@ let right_ear = document.querySelector("#right-ear");
 let snap_shot = document.querySelector("#snapshot");
 let video=document.getElementById("video");
 //下面的代码是保存canvas标签里的图片并且将其按一定的规则重命名
-let type = 'png';
 
 let _fixType = function(type) {
     type = type.toLowerCase().replace(/jpg/i, 'jpeg');
@@ -117,6 +118,7 @@ let _fixType = function(type) {
 
 let saveFile = function(filename){
     //获取canvas标签里的图片内容
+    let type = 'png';
     let canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
@@ -146,6 +148,24 @@ right_head.addEventListener("click", function (e) {
 });
 
 snap_shot.addEventListener("click", function (e) {
+    let type = 'png';
     let filename = (new Date()).getTime() + '.' + type;
     saveFile(filename);
+});
+
+let color_ear = left_ear.getElementsByTagName("img");
+//let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+color_ear[0].addEventListener("click",function (e) {
+    fillLight.color.setHSL(281/360, 0.8, 0.58);
+    console.log(1);
+});
+
+color_ear[1].addEventListener("click",function (e) {
+    fillLight.color.setHSL(187/360, 0.8, 0.58);
+    console.log(1);
+});
+
+color_ear[2].addEventListener("click",function (e) {
+    fillLight.color.setHSL(93/360, 0.8, 0.58);
+    console.log(1);
 });
