@@ -66,7 +66,7 @@ loader.load(
         PigNose = object;
         PigNose.position.x = 0;
         PigNose.position.y = 0;
-        PigNose.position.z = -10;
+        PigNose.position.z = -15;
         // PigNose.rotateX(180);
         console.log(PigNose.position);
         scene.add( PigNose );

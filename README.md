@@ -20,6 +20,11 @@ opencv.js + three.js
 ![FI6ODf.png](https://s2.ax1x.com/2019/01/02/FI6ODf.png)
 
 增加表示被选中
+
+### v2.0.0
+![FoYfC8.png](https://s2.ax1x.com/2019/01/03/FoYfC8.png)
+
+强行接入算法模块
 ## 目前进度
 
 * 算法模块已经完成
