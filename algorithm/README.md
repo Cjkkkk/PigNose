@@ -43,7 +43,9 @@ async function onPlay() {
 }
 ```
 
-开始处理得到的图像：利用一个主要的函数faceapi.detectSingleFace就可以得到关于这个图像的所有的特征点，但是这个特征点是unshifted，就是说这个坐标还没有平移图片中人脸所在的位置。然后通过调用drawLandmarks这个函数把图片进行平移并且把特征点显示出来。setTimeout(() => onPlay())就是说执行完 onPlay()之后再执行onPlay()这个函数。
+开始处理得到的图像：利用一个主要的函数faceapi.detectSingleFace就可以得到关于这个图像的所有的特征点，但是这个特征点是unshifted，
+就是说这个坐标还没有平移图片中人脸所在的位置。然后通过调用drawLandmarks这个函数把图片进行平移并且把特征点显示出来。
+setTimeout(() => onPlay())就是说执行完 onPlay()之后再执行onPlay()这个函数。
 
 3：function drawLandmarks(dimensions, canvas, results, withBoxes = true)
 
@@ -74,7 +76,10 @@ function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
 }    
 ```
 
-利用drawLandmarks这个函数把图片进行平移并且把特征点显示出来，resizedResults确定一下画布的大小并且找到人脸在照片中的shifted的位置，然后根据resizedResults.map重新匹配到特征点新的位置。从68个特征点中去对应的6个特征点，分别是nosetip，chin，lefteye，righteye，leftmouth，rightmouth，其中3D模型（即世界坐标系）是提前已经固定好了的。然后2D的位置是提取出来的。drawLandmarksOptions1是用来设定一下画图的参数。
+利用drawLandmarks这个函数把图片进行平移并且把特征点显示出来，resizedResults确定一下画布的大小并且找到人脸在照片中的shifted的位置，
+然后根据resizedResults.map重新匹配到特征点新的位置。从68个特征点中去对应的6个特征点，
+分别是nosetip，chin，lefteye，righteye，leftmouth，rightmouth，其中3D模型（即世界坐标系）是提前已经固定好了的。
+然后2D的位置是提取出来的。drawLandmarksOptions1是用来设定一下画图的参数。
 
 4：function face(image,point3d,point2d)
 
@@ -104,4 +109,6 @@ function face(image,point3d,point2d){
 }
 ```
 
-利用face这个函数进行寻找面部的垂直向量，先设定好solvePnP函数所需要的一些参数rotation_vector啥的，然后根据opencv.js中的solvePnP算出三维中各个特征点对应的位置（但是由于opencv.js之中没有solvePnP这个函数，所以移植有点失败）然后再根据projectPoints这个函数把三维nose的坐标延长，即可得到面部的特征向量。
+利用face这个函数进行寻找面部的垂直向量，先设定好solvePnP函数所需要的一些参数rotation_vector啥的，
+然后根据opencv.js中的solvePnP算出三维中各个特征点对应的位置（但是由于opencv.js之中没有solvePnP这个函数，所以移植有点失败）
+然后再根据projectPoints这个函数把三维nose的坐标延长，即可得到面部的特征向量。

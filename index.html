@@ -2,9 +2,6 @@
     <head>
         <title>PigNose</title>
         <link type="text/css" rel="stylesheet" href="./res/css/index.css">
-        <script src="res/js/three.js"></script>
-        <script src="res/js/OBJLoader.js"></script>
-        <script src="res/js/OrbitControls.js"></script>
     </head>
     <body>
         <div id="top-bar">
@@ -13,7 +10,9 @@
             <img src="./res/img/0002.png">
             <img src="./res/img/0003.png">
         </div>
-        <video id="video" controls></video>
+        <video id="video" onplay="onPlay(this)" controls></video>
+        <!--<video id="video" controls></video>-->
+        <canvas id="landmark"></canvas>
         <div id="bottom-bar">
             <div id="ear">
                 <div id="left-ear">
@@ -39,5 +38,10 @@
             </div>
         </div>
     </body>
+    <script src="res/js/three.js"></script>
+    <script src="res/js/OBJLoader.js"></script>
+    <script src="res/js/OrbitControls.js"></script>
+    <script src="./algorithm/face-api.js"></script>
+    <script src="./algorithm/opencv.js"></script>
     <script src="index.js"></script>
 </html>

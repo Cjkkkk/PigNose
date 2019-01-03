@@ -50,7 +50,7 @@ function drawDetections(dimensions, canvas, detections) {
 
 function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
   //console.log(canvas)
-  const resizedResults = resizeCanvasAndResults(dimensions, canvas, results)
+  const resizedResults = resizeCanvasAndResults(dimensions, canvas, results);
   if (withBoxes) {
       faceapi.drawDetection(canvas, resizedResults.map(det => det.detection))
   }
@@ -65,7 +65,7 @@ function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
        righteye : vector3d(225.0, 170.0, -135.0),
        leftmouth : vector3d(-150.0, -150.0, -125.0),
        rightmouth : vector3d(150.0, -150.0, -125.0)
-  }
+  };
 
   var point2d = {
        nosetip : vector2d(faceLandmarks[0]._positions[30].x/ratio,faceLandmarks[0]._positions[30].y/ratio),
@@ -100,7 +100,7 @@ function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
 async function onPlay() {
    const videoEl = document.getElementById('inputVideo');
    const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 128, scoreThreshold : 0.3 });
-   result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true);
+   result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true); //获取检测结果
 
    if (result) {
        drawLandmarks(videoEl, document.getElementById('overlay'), [result], true);
