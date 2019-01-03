@@ -4,26 +4,25 @@ function resizeCanvasAndResults(dimensions, canvas, results) {
         : dimensions;
     canvas.width = width;
     canvas.height = height;
-
     // resize detections (and landmarks) in case displayed image is smaller than
     // original size
     return results.map(res => res.forSize(width, height))
 }
 
-const vector2d = function (x, y){
+function vector2d(x, y){
     return {
         vx: x,
         vy: y
     }
-};
+}
 
-const vector3d = function (x, y,z){
+function vector3d(x, y,z){
     return {
         vx: x,
         vy: y,
         vz: z
     }
-};
+}
 
 function drawDetections(dimensions, canvas, detections) {
     const resizedDetections = resizeCanvasAndResults(dimensions, canvas, detections)
@@ -33,10 +32,8 @@ function drawDetections(dimensions, canvas, detections) {
 function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
     const resizedResults = resizeCanvasAndResults(dimensions, canvas, results);
     const faceLandmarks = resizedResults.map(det => det.landmarks);
-
     const ratio = 642 / canvas.width;
-
-    var point3d = {
+    const point3d = {
         nosetip : vector3d(0.0, 0.0,0.0),
         chin : vector3d(0.0, -330.0, -65.0),
         lefteye : vector3d(-225.0, 170.0, -135.0),
@@ -45,7 +42,7 @@ function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
         rightmouth : vector3d(150.0, -150.0, -125.0)
     };
 
-    var point2d = {
+    const point2d = {
         nosetip : vector2d(faceLandmarks[0]._positions[30].x/ratio,faceLandmarks[0]._positions[30].y/ratio),
         chin : vector2d(faceLandmarks[0]._positions[8].x/ratio,faceLandmarks[0]._positions[8].y/ratio),
         lefteye : vector2d(faceLandmarks[0]._positions[36].x/ratio,faceLandmarks[0]._positions[36].y/ratio),
@@ -54,14 +51,13 @@ function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
         rightmouth : vector2d(faceLandmarks[0]._positions[54].x/ratio,faceLandmarks[0]._positions[54].y/ratio)
     };
 
-
     const drawLandmarksOptions1 = {
         lineWidth: 2,
         drawLines: true,
         color: 'pink'
     };
 
-    nose2d = vector2d(face(canvas,point3d,point2d).x,face(canvas,point3d,point2d).y);
+    const nose2d = vector2d(face(canvas,point3d,point2d).x,face(canvas,point3d,point2d).y);
     let x_offset_ratio = (2 * point2d.nosetip.vx / 1200) - 1;
     let y_offset_ratio = (2 * point2d.nosetip.vy / 600) - 1;
     let y_offset = y_offset_ratio *
@@ -70,8 +66,8 @@ function drawLandmarks(dimensions, canvas, results, withBoxes = true) {
         Math.tan(Math.PI * camera.fov / 360) * (Math.abs(PigNose.position.z - camera.position.z)) * camera.aspect ;
     PigNose.position.x = x_offset;
     PigNose.position.y = - y_offset + 8;
-    console.log("PigNose", PigNose.position.x, x_offset_ratio, PigNose.position.y, y_offset_ratio);
-    console.log('nose', point2d.nosetip);
+    // console.log("PigNose", PigNose.position.x, x_offset_ratio, PigNose.position.y, y_offset_ratio);
+    // console.log('nose', point2d.nosetip);
     //const leftEyeBbrow = faceLandmarks.getLeftEyeBrow()
     // const rightEyeBrow = faceLandmarks.getRightEyeBrow()
     faceapi.drawLandmarks(canvas, faceLandmarks, drawLandmarksOptions1)
@@ -91,10 +87,9 @@ async function onPlay() {
     if (result) {
         drawLandmarks(videoEl, document.getElementById('landmark'), [result], true);
     }
-    setTimeout(() => onPlay())
 }
 
-async function run() {
+async function load() {
     //Loading model
     await faceapi.loadTinyFaceDetectorModel('https://hpssjellis.github.io/face-api.js-for-beginners/');
     await faceapi.loadFaceLandmarkTinyModel('https://hpssjellis.github.io/face-api.js-for-beginners/');
@@ -115,13 +110,12 @@ function face(image,point3d,point2d){
 
     nose_end_point2D = vector2d();
     nose_end_point3D = vector3d(0, 0, 1000);
-
     //cv.projectPoints(nose_end_point3D, rotation_vector, translation_vector, camera_matrix, dist_coeffs, nose_end_point2D)
-
     // console.log(nose_end_point2D,nose_end_point3D);
-
     //cv.imshow('overlay', dst);
     return nose_end_point2D
 }
 
-run();
+load().then(()=>{
+    setInterval(onPlay, 100);
+});

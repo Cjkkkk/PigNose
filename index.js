@@ -33,7 +33,7 @@ let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera( 75, width/height, 1, 1000 );
 let renderer = new THREE.WebGLRenderer({ alpha: true });
 let keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
-let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(308, 100%, 75%)'), 0.75);
+let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(187, 80%, 58%)'), 1);
 let backLight = new THREE.DirectionalLight(0xffffff, 1.0);
 camera.position.z = 5;
 keyLight.position.set(-100, 0, 100);
@@ -56,7 +56,14 @@ let cube = new THREE.Mesh( geometry, material );
 // scene.add( cube );
 
 let loader = new THREE.OBJLoader();
-let PigNose;
+let PigNose = {
+    position : {
+        x: 0,
+        y: 0,
+        z: -15
+    }
+};
+
 // load a resource
 loader.load(
     // resource URL

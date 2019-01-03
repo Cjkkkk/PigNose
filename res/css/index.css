@@ -79,14 +79,14 @@ video {
     width: 13vw;
     position: relative;
     top: 10vh;
-    transition: all ease-in 0.5s;
+    transition: all ease-in 0.25s;
     overflow-y: hidden;
     z-index: -1;
 }
 #left-ear img{
-    width: 50%;
+    width: 40%;
     position: absolute;
-    left: 25%;
+    left: 30%;
 
     background-position: center;
     background-size: 40%;
@@ -103,7 +103,7 @@ video {
 }
 .choose{
     /*background-image: url("../img/circle.svg");*/
-    background-color: black;
+    background-color: white;
 }
 .no_choose{
 
